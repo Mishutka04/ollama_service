@@ -1,7 +1,8 @@
 import json
 from os import getenv
 from dotenv import load_dotenv
-from fastapi import HTTPException, requests
+from fastapi import HTTPException
+import requests
 import openai
 
 from ollama_app.schemas import SOllamaModel

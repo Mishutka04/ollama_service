@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.ollama_app.router import model_router
-
+from ollama_app.router import model_router
 
 app = FastAPI(
     title="GitCTO auto review API",
@@ -12,7 +11,6 @@ app = FastAPI(
     docs_url="/api/docs",
     redoc_url="/api/redoc",
 )
-
 
 app.add_middleware(
     CORSMiddleware,

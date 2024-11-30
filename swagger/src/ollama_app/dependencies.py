@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from fastapi import HTTPException
 import openai
 
-from src.ollama_app.schemas import SOllamaModel
+from ollama_app.schemas import SOllamaModel
 
 load_dotenv()
 
@@ -12,6 +12,7 @@ openai.api_key = 'ollama'  # Replace with your actual API key
 base_url = 'http://localhost:11434/v1'  # Replace with your actual base URL
 
 async def qween_api(comment: SOllamaModel):
+    
     try:
         response = openai.ChatCompletion.create(
             model="qwen2.5:32b",

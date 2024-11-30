@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, status, UploadFile, File
 
 
-from src.ollama_app.dependencies import qween_api
-from src.ollama_app.schemas import SOllamaModel
+from ollama_app.dependencies import qween_api
+from ollama_app.schemas import SOllamaModel
 
 model_router = APIRouter(
     prefix='/api/qween',

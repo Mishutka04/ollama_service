@@ -1,6 +1,13 @@
+httpx
 fastapi
 uvicorn
+sqlalchemy
 asyncpg
 pydantic[dotenv]>2.0
 pydantic_settings
-openai
+pillow
+sentry_sdk[fastapi]
+aiohttp
+rarfile
+zipfile36
+python-multipart

@@ -15,12 +15,8 @@ services:
       - backend
 
   backend:
-    build: ./swagger/
-    container_name: fastapi_app
-    volumes:
-      - .:/app
-    environment:
-      - DEBUG=1
+    build:
+      context: ./swagger
     networks:
       - dev
 

@@ -11,3 +11,4 @@ aiohttp
 rarfile
 zipfile36
 python-multipart
+openai

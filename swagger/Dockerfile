@@ -1,20 +1,22 @@
-# Используем официальный образ Python
-FROM python:3.13-slim
+# Use the official Python image from the Docker Hub
+FROM python:3.11.9-slim
 
-# Устанавливаем рабочую директорию
-WORKDIR /app
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Копируем файл с зависимостями
-COPY requirements.txt .
+# Set the working directory
+WORKDIR /application
 
-# Устанавливаем зависимости
+# Copy requirements file and install dependencies
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копируем код приложения в контейнер
-COPY src/. /app/.
+# Copy the entire application code to the container
+COPY . .
 
-# Открываем порт для доступа к приложению
-EXPOSE 7072
+# Expose the port that the app runs on
+EXPOSE 8000
 
-# Запускаем приложение с помощью Uvicorn
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7072"]
+# Command to run the FastAPI application using uvicorn
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from ollama_app.router import gitlab_router
+from src.ollama_app.router import model_router
 
 
 app = FastAPI(
@@ -22,4 +22,4 @@ app.add_middleware(
     allow_headers=["*"],   # Allows all headers
 )
 
-app.include_router(gitlab_router)
+app.include_router(model_router)

@@ -1,12 +1,9 @@
 from os import getenv
-
-import aiohttp
 from dotenv import load_dotenv
 from fastapi import HTTPException
 import openai
-import requests
 
-from ollama_app.schemas import SOllamaModel
+from src.ollama_app.schemas import SOllamaModel
 
 load_dotenv()
 

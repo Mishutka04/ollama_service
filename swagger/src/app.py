@@ -1,6 +1,7 @@
 import json
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from openai import BaseModel
 
 from ollama_app.router import model_router
 from ollama_app.dependencies import qween_api

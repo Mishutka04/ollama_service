@@ -17,7 +17,7 @@ client = OpenAI(
 )
 async def qween_api(comment: SOllamaModel):
         # URL и параметры запроса
-    url = "http://localhost:11434/api/generate"
+    url = "http://localhost:11434/v1/generate"
     headers = {
         'Content-Type': 'application/json'
     }

@@ -24,7 +24,5 @@ app.add_middleware(
 @app.post("/query")
 async def request_to_qween(settings: SOllamaModel):
     request = await qween_api(settings)
-    if not request:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Error Model")
     return request
 app.include_router(model_router)

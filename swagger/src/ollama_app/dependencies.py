@@ -23,5 +23,5 @@ async def qween_api(comment: SOllamaModel):
         response_content = response.choices[0].message.content
         return {"response": response_content}
     except Exception as e:
-        return False
+        return {"error": e}
 

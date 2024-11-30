@@ -2,8 +2,8 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 
 from ollama_app.router import model_router
-from ollama_service.swagger.src.ollama_app.dependencies import qween_api
-from ollama_service.swagger.src.ollama_app.schemas import SOllamaModel
+from ollama_app.dependencies import qween_api
+from ollama_app.schemas import SOllamaModel
 
 app = FastAPI(
     title="GitCTO auto review API",

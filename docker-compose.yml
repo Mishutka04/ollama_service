@@ -1,0 +1,44 @@
+services:
+  review-front:
+    image: registry.gitlab.com/ra_coder/llm-review/front:latest
+    container_name: review-front
+    build:
+      dockerfile: front/Dockerfile
+    ports:
+      - "8082:8082"
+    networks:
+      - llm-review
+
+  review-back:
+    image: registry.gitlab.com/ra_coder/llm-review/back:latest
+    container_name: review-back
+    build:
+      context: back
+      dockerfile: Dockerfile
+    networks:
+      - llm-review
+    environment:
+      - GITLAB_CLIENT_ID=${GITLAB_CLIENT_ID}
+      - GITLAB_CLIENT_SECRET=${GITLAB_CLIENT_SECRET}
+
+#
+#  gitcto-postgres:
+#    image: postgres:latest
+#    container_name: gitcto-postgres
+#    restart: always
+#    environment:
+#      POSTGRES_USER: gitcto
+#      POSTGRES_PASSWORD: gitcto
+#      POSTGRES_DB: gitcto
+#    networks:
+#      - gitcto
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+
+networks:
+  llm-review:
+
+volumes:
+  postgres_data:

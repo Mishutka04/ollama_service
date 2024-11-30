@@ -36,7 +36,7 @@ class GenerateRequest(BaseModel):
 # Define endpoint to handle requests and return the full raw JSON response
 @app.post("/generate")
 async def generate_full(request: GenerateRequest):
-    url = "http://localhost:11434/api/generate"     # URL of the local model API
+    url = "http://host.docker.internal:11434/api/generate"     # URL of the local model API
     headers = {"Content-Type": "application/json"}  # Specify the content type as JSON
     data = {
         "model": request.model,     # Model name from the request

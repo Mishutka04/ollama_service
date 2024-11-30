@@ -1,6 +1,7 @@
+import json
 from os import getenv
 from dotenv import load_dotenv
-from fastapi import HTTPException
+from fastapi import HTTPException, requests
 import openai
 
 from ollama_app.schemas import SOllamaModel
@@ -14,17 +15,23 @@ client = OpenAI(
     api_key='ollama',  # This is the default and can be omitted
 )
 async def qween_api(comment: SOllamaModel):
-    
-    try:
-        response = client.chat.completions.create(
-            model="qwen2.5:32b",
-            messages={"role": comment.role, "content": comment.content},
-            api_base=base_url  # Use the specified base URL
-        )
-        # Extract the response content
-        response_content = response.choices[0].message.content
-        return {"response": response_content}
-    except Exception as e:
-        print(e)
-        return {"error": e}
+        # URL и параметры запроса
+    url = "http://localhost:11434/api/generate"
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    data = {
+        "model": "qwen2.5:32b",
+        "prompt": "Что такое вода?"
+    }
 
+    # Отправка POST-запроса
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+
+    # Проверка статуса ответа
+    if response.status_code == 200:
+        response_data = response.json()
+        print(response_data)  # Выводим ответ от модели
+    else:
+        print(f"Ошибка: {response.status_code} - {response.text}")
+    

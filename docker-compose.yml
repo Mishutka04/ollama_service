@@ -1,18 +1,21 @@
-version: '3.8'
+networks:
+  dev:
 
 services:
   nginx:
     image: nginx:stable-alpine
     ports:
-      - "8080:80"
+      - "80:80"
       - "443:443"
     volumes:
       - './nginx.conf:/etc/nginx/nginx.conf'
-      - ./:/var/www/html
-    networks:
-      - dev
+      - '/etc/letsencrypt:/etc/letsencrypt'
     depends_on:
       - backend
+      - frontend
+    networks:
+      - dev
+    
 
   backend:
     build:
@@ -20,5 +23,8 @@ services:
     networks:
       - dev
 
-networks:
-  dev:
+  frontend:
+    build:
+      context: ./frontend
+    networks:
+      - dev

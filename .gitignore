@@ -7,29 +7,31 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-front/node_modules
-front/dist
-front/dist-ssr
-
-vue_front/node_modules
-vue_front/dist
-vue_front/dist-ssr
-
+node_modules
+.DS_Store
+dist
+dist-ssr
+coverage
 *.local
+
+/cypress/videos/
+/cypress/screenshots/
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-__pycache__
-.env
 
-# folders
-bot/downloads/*
-back/src/upload_files/*
+*.tsbuildinfo
+
+# custom
+venv
+.env
+__pycache__
+
+ollama

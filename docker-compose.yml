@@ -1,30 +1,98 @@
-networks:
-  dev:
+version: '3.8'
 
 services:
   nginx:
-    image: nginx:stable-alpine
+    image: nginx:alpine
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - './nginx.conf:/etc/nginx/nginx.conf'
-      - '/etc/letsencrypt:/etc/letsencrypt'
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./frontend/dist:/usr/share/nginx/html:ro
+    # Add your SSL key
     depends_on:
       - backend
       - frontend
     networks:
-      - dev
-    
-
-  backend:
-    build:
-      context: ./swagger
-    networks:
-      - dev
-
+      - ollama-docker
   frontend:
     build:
-      context: ./frontend
+      context: ./frontend # Path to directory with Dockerfile for Vue.js
+    volumes:
+      - ./frontend/src:/usr/src/app/src # Монтируем локальные файлы
     networks:
-      - dev
+      - ollama-docker
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/code
+    networks:
+      - ollama-docker
+    depends_on:
+      - postgres
+      - ollama
+      - ollama-webui
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ollama-docker
+      
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=postgres
+
+  ollama:
+    image: docker.io/ollama/ollama:latest
+    ports:
+      - 7869:11434
+    volumes:
+      - .:/code
+      - ./ollama/ollama:/root/.ollama
+    container_name: ollama
+    pull_policy: always
+    tty: true
+    restart: always
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+      - OLLAMA_HOST=0.0.0.0
+    networks:
+      - ollama-docker
+
+  ollama-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: ollama-webui
+    volumes:
+      - ./ollama/ollama-webui:/app/backend/data
+    depends_on:
+      - ollama
+    ports:
+      - 8080:8080
+    environment: # https://docs.openwebui.com/getting-started/env-configuration#default_models
+      - OLLAMA_BASE_URLS=http://host.docker.internal:7869 #comma separated ollama hosts
+      - ENV=dev
+      - WEBUI_AUTH=False
+      - WEBUI_NAME=valiantlynx AI
+      - WEBUI_URL=http://localhost:8080
+      - WEBUI_SECRET_KEY=t0p-s3cr3t
+      - CORS_ALLOW_ORIGIN=http://localhost
+      - USER_AGENT=valiantlynx-ollama-webui
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: unless-stopped
+    networks:
+      - ollama-docker
+
+volumes:
+  postgres_data:
+
+
+networks:
+  ollama-docker:
+    driver: bridge

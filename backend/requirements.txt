@@ -1,0 +1,15 @@
+fastapi[all]
+passlib
+python-jose
+sqlalchemy
+asyncpg
+alembic
+psycopg2
+debugpy
+langchain-community
+langchain
+langchainhub
+gpt4all
+chromadb
+requests
+beautifulsoup4
